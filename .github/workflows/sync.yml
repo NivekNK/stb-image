@@ -23,19 +23,26 @@ jobs:
     needs: update-fork
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
       - name: Copy Updated stb Files
         env:
           COMMIT_MESSAGE: Copy updated files [Automated Action]
           COMMIT_AUTHOR: Github Action
           FILES: stb_image.h
         run: |
-          mkdir -p include
           git config --global user.name "${{ env.COMMIT_AUTHOR }}"
           git config --global user.email "username@users.noreply.github.com"
           git fetch origin stb:stb
+          mkdir -p include
           git archive --format=tar stb | tar -x -C include
           cd include
           git add $FILES
           git commit -m "${{ env.COMMIT_MESSAGE }}"
-          git push origin main
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
