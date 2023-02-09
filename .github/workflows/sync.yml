@@ -2,12 +2,6 @@ name: Sync Fork and Update main
 
 # This runs every 1st of the month at 04:01 UTC
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   schedule:
     - cron: '1 4 1 * *'
   # Allows manual workflow run (must in default branch to work)
