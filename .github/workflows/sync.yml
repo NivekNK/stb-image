@@ -17,7 +17,7 @@ jobs:
           upstream_repo: https://github.com/nothings/stb.git
           upstream_branch: master
           downstream_branch: stb
-          token: ${{ secrets.WORKFLOW_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           spawn_logs: false
   copy-to-branches:
     needs: update_fork
@@ -29,6 +29,5 @@ jobs:
       - name: Copy To Branches Action
         uses: planetoftheweb/copy-to-branches@v1.2
         env:
-          branches: main
           key: stb
           files: stb_image.h
